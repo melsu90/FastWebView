@@ -1,4 +1,4 @@
-name: BuildX
+name: Build
 
 # The workflow will start manually
 on:
