@@ -96,11 +96,11 @@ public class WebViewActivity extends AppCompatActivity {
             cookieManager.setAcceptThirdPartyCookies(fastWebView, true);
             webSettings.setMixedContentMode(WebSettings.MIXED_CONTENT_COMPATIBILITY_MODE);
         }
-        CacheConfig config = new CacheConfig.Builder(this)
-                .setCacheDir(getCacheDir() + File.separator + "custom")
-                .setExtensionFilter(new CustomMimeTypeFilter())
-                .build();
-        fastWebView.setCacheMode(FastCacheMode.FORCE, config);
+//        CacheConfig config = new CacheConfig.Builder(this)
+//                .setCacheDir(getExternalCacheDir() + File.separator + "custom")
+//                .setExtensionFilter(new CustomMimeTypeFilter())
+//                .build();
+        fastWebView.setCacheMode(null, null);
         fastWebView.addResourceInterceptor(new ResourceInterceptor() {
             @Override
             public WebResource load(Chain chain) {

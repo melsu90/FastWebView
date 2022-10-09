@@ -13,6 +13,9 @@ import com.ryan.github.view.config.FastCacheMode;
 import com.ryan.github.view.cookie.FastCookieManager;
 import com.ryan.github.view.offline.ResourceInterceptor;
 import com.ryan.github.view.utils.LogUtils;
+import com.ryan.github.view.config.DefaultMimeTypeFilter;
+import java.io.File;
+
 
 /**
  * Created by Ryan
@@ -84,6 +87,17 @@ public class FastWebView extends WebView implements FastOpenApi {
 
     @Override
     public void setCacheMode(FastCacheMode mode, CacheConfig cacheConfig) {
+        if (mode == null) {
+            mode = FastCacheMode.Force;
+        }
+        if (cacheConfig == null) {
+            mode = FastCacheMode.Force;
+        CacheConfig cacheConfig = new CacheConfig.Builder(this)
+                .setCacheDir(getExternalCacheDir() + File.separator + "custom")
+                .setExtensionFilter(new CustomMimeTypeFilter())
+                .build();
+
+        }        
         if (mode == FastCacheMode.DEFAULT) {
             mFastClient = null;
             if (mUserWebViewClient != null) {
@@ -96,6 +110,12 @@ public class FastWebView extends WebView implements FastOpenApi {
             }
             mFastClient.setCacheMode(mode, cacheConfig);
             super.setWebViewClient(mFastClient);
+        }
+    }
+
+    public class CustomMimeTypeFilter extends DefaultMimeTypeFilter {
+        CustomMimeTypeFilter() {
+            addMimeType("text/html");
         }
     }
 
