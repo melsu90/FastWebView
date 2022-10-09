@@ -11,6 +11,9 @@ import com.ryan.github.view.offline.OfflineServer;
 import com.ryan.github.view.offline.OfflineServerImpl;
 import com.ryan.github.view.offline.ResourceInterceptor;
 import com.ryan.github.view.utils.MimeTypeMapUtils;
+import java.io.File;
+import com.ryan.github.view.config.DefaultMimeTypeFilter;
+
 
 import java.io.File;
 import java.util.Map;
@@ -54,8 +57,25 @@ public class WebViewCacheImpl implements WebViewCache {
 
     @Override
     public void setCacheMode(FastCacheMode mode, CacheConfig cacheConfig) {
+        if (mode == null) {
+            mode = FastCacheMode.Force;
+        }
+        if (cacheConfig == null) {
+            mode = FastCacheMode.Force;
+        CacheConfig cacheConfig = new CacheConfig.Builder(this)
+                .setCacheDir(getExternalCacheDir() + File.separator + "custom")
+                .setExtensionFilter(new CustomMimeTypeFilter())
+                .build();
+
+        }
         mFastCacheMode = mode;
         mCacheConfig = cacheConfig;
+    }
+
+    public class CustomMimeTypeFilter extends DefaultMimeTypeFilter {
+        CustomMimeTypeFilter() {
+            addMimeType("text/html");
+        }
     }
 
     @Override

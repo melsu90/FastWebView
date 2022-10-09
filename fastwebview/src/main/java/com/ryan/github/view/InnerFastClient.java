@@ -22,6 +22,8 @@ import com.ryan.github.view.config.CacheConfig;
 import com.ryan.github.view.config.FastCacheMode;
 import com.ryan.github.view.offline.Destroyable;
 import com.ryan.github.view.offline.ResourceInterceptor;
+import com.ryan.github.view.config.DefaultMimeTypeFilter;
+import java.io.File;
 
 /**
  * WebViewClient decorator for intercepting resource loading.
@@ -282,6 +284,7 @@ class InnerFastClient extends WebViewClient implements FastOpenApi, Destroyable 
             mWebViewCache.setCacheMode(mode, cacheConfig);
         }
     }
+
 
     @Override
     public void addResourceInterceptor(ResourceInterceptor interceptor) {
